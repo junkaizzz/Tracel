@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5f6b7a"/>
+    </marker>
+  </defs>
+  <rect width="960" height="330" fill="#ffffff"/>
+  <!-- inputs -->
+  <text x="20" y="28" font-size="15" font-weight="bold" fill="#2b2f36">Inputs</text>
+  <g font-size="12.5" fill="#2b2f36">
+    <rect x="20" y="42" width="210" height="72" rx="8" fill="#f2f4f7" stroke="#9aa5b1"/>
+    <text x="32" y="64" font-weight="bold">Spatial measurements</text>
+    <text x="32" y="83">transcripts (gene, x, y) or</text>
+    <text x="32" y="100">2 µm bins with UMI counts</text>
+    <rect x="20" y="126" width="210" height="72" rx="8" fill="#f2f4f7" stroke="#9aa5b1"/>
+    <text x="32" y="148" font-weight="bold">Initial cells</text>
+    <text x="32" y="167">cell × gene counts, centroids,</text>
+    <text x="32" y="184">cell-group labels</text>
+    <rect x="20" y="210" width="210" height="72" rx="8" fill="#f2f4f7" stroke="#9aa5b1"/>
+    <text x="32" y="232" font-weight="bold">scRNA-seq reference</text>
+    <text x="32" y="251">cell × gene counts,</text>
+    <text x="32" y="268">cell-group labels</text>
+  </g>
+  <!-- OT1 -->
+  <rect x="285" y="126" width="250" height="156" rx="10" fill="#e6f4f1" stroke="#2a9d8f" stroke-width="1.5"/>
+  <text x="300" y="150" font-size="15" font-weight="bold" fill="#1d6f65">OT1 · cell alignment</text>
+  <g font-size="12.5" fill="#2b2f36">
+    <text x="300" y="174">low-rank unbalanced FGW</text>
+    <text x="300" y="193">• expression: joint PCA distance</text>
+    <text x="300" y="212">• structure: cell-group relations</text>
+    <text x="316" y="229">(switch: use_structure)</text>
+    <text x="300" y="248">• type-balanced marginals</text>
+    <text x="300" y="270" font-weight="bold">→ soft profile per cell</text>
+  </g>
+  <!-- OT2 -->
+  <rect x="590" y="42" width="250" height="156" rx="10" fill="#fdf0e6" stroke="#e07a2f" stroke-width="1.5"/>
+  <text x="605" y="66" font-size="15" font-weight="bold" fill="#a6531a">OT2 · transcript alignment</text>
+  <g font-size="12.5" fill="#2b2f36">
+    <text x="605" y="90">per gene, per 250 µm window</text>
+    <text x="605" y="109">• candidates: cells ≤ 12 µm</text>
+    <text x="605" y="128">• cost: distance (hard cut 12 µm)</text>
+    <text x="605" y="147">• target mass: OT1 profile</text>
+    <text x="605" y="166">• unbalanced Sinkhorn</text>
+    <text x="605" y="188" font-weight="bold">→ argmax cell per transcript</text>
+  </g>
+  <!-- filter and output -->
+  <rect x="590" y="218" width="250" height="44" rx="10" fill="#fff8db" stroke="#c9a227"/>
+  <text x="605" y="238" font-size="13" font-weight="bold" fill="#7a6212">Relative row-mass filter</text>
+  <text x="605" y="254" font-size="12.5" fill="#2b2f36">keep if row mass / a ≥ 0.1</text>
+  <rect x="590" y="276" width="250" height="40" rx="10" fill="#eef2fb" stroke="#4c6fbf"/>
+  <text x="605" y="301" font-size="13" font-weight="bold" fill="#2f4a8a">Integer cell × gene counts</text>
+  <!-- arrows -->
+  <g stroke="#5f6b7a" stroke-width="1.6" fill="none" marker-end="url(#arrow)">
+    <path d="M230,162 L283,190"/>
+    <path d="M230,246 L283,222"/>
+    <path d="M230,78 L588,100"/>
+    <path d="M535,190 C565,190 565,140 588,140"/>
+    <path d="M715,198 L715,216"/>
+    <path d="M715,262 L715,274"/>
+  </g>
+  <text x="300" y="306" font-size="11.5" fill="#5f6b7a">initial cells and centroids stay fixed</text>
+</svg>
