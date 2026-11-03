@@ -97,7 +97,8 @@ table (id, centroid x/y in the same frame). Optional `count_col` marks weighted 
 UMIs; optional `min_qv` drops low-quality transcripts (not applied by default). Windows: 250 µm, step 125 µm.
 
 **Per gene and window.** Candidates are the union of cells within 12 µm of any transcript of that gene. Cost:
-`(d/15)^2 + 10·(exp(max(d−15,0)/5) − 1) + 10^6·1(d > 12)`. Source mass uniform (or proportional to `count`);
+`(d/15)^2 + 10^6·1(d > 12)` (the optional `sigma`/`alpha` term acts only beyond `r0` = 15 µm, so with the 12 µm
+cut it is always zero). Source mass uniform (or proportional to `count`);
 target mass proportional to the gene's OT1 profile over the candidates. Unbalanced Sinkhorn: `epsilon = 0.05`,
 `tau_a = 0.8`, `tau_b = 0.9`, up to 2,000 iterations, threshold `1e-3`. Each transcript goes to the argmax of its
 row-normalized plan row; its raw (unnormalized) row mass is stored.
@@ -115,7 +116,8 @@ are always kept.
 | `epsilon` | 0.05 | Sinkhorn regularization |
 | `tau_a`, `tau_b` | 0.8, 0.9 | marginal relaxation |
 | `max_iters`, `thresh` | 2000, 1e-3 | Sinkhorn stopping |
-| `r0`, `p_in`, `sigma`, `alpha` | 15, 2, 5, 10 | distance cost |
+| `r0`, `p_in` | 15, 2 | distance scale (µm) and exponent of the cost |
+| `sigma`, `alpha` | 5, 10 | optional term beyond `r0`; zero when `hard_cut_um` ≤ `r0` |
 | `hard_cut_um`, `big_penalty` | 12, 1e6 | candidate radius and hard cut |
 
 **Outputs** (`run_dir/threshold_0p1/` by default): `ot2_counts.h5ad` (integer counts), `ot2_lognorm.h5ad`

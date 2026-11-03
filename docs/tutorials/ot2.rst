@@ -31,8 +31,13 @@ For each gene :math:`g` in each window :math:`W`:
 
    .. math::
 
-       C = \left(\frac{d}{15}\right)^2 + 10\left[\exp\!\left(\frac{(d-15)_+}{5}\right) - 1\right]
-           + 10^6\,\mathbf{1}(d > 12).
+       C = \left(\frac{d}{s}\right)^2 + 10^6\,\mathbf{1}(d > \delta),
+
+   with distance scale :math:`s = 15` µm and cut-off :math:`\delta = 12` µm. In the entropically regularized
+   plan, the attraction of a cell for a transcript decays as :math:`\exp\!\bigl(-d^2/(s^2\varepsilon)\bigr)`, and
+   pairs farther than :math:`\delta` apart are excluded. (``OT2Params`` also has an optional term
+   :math:`\alpha\bigl[\exp\bigl((d-s)_+/\sigma\bigr) - 1\bigr]` for distances beyond :math:`s`; with
+   :math:`\delta \le s` it is always zero.)
 
 3. **Marginals.** Transcripts receive equal mass (or mass proportional to their UMI count for weighted
    records). Cells receive mass proportional to their OT1 soft expression of :math:`g`.
@@ -95,9 +100,12 @@ Main parameters
    * - ``max_iters``, ``thresh``
      - 2000, 1e-3
      - Sinkhorn stopping rule
-   * - ``r0``, ``p_in``, ``sigma``, ``alpha``
-     - 15, 2, 5, 10
-     - distance cost
+   * - ``r0``, ``p_in``
+     - 15, 2
+     - distance scale :math:`s` (µm) and exponent of the cost
+   * - ``sigma``, ``alpha``
+     - 5, 10
+     - optional term beyond ``r0``; zero when ``hard_cut_um`` :math:`\le` ``r0``
    * - ``hard_cut_um``, ``big_penalty``
      - 12, 1e6
      - candidate radius and penalty beyond it

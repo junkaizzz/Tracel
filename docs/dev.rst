@@ -6,7 +6,7 @@ Main components
 
 * ``tracel/ot1.py``: input normalization, joint expression embedding, structure embedding, type-balanced
   marginals, the two FGW solve paths (with and without structure) and the low-rank blend.
-* ``tracel/ot2.py``: window construction, the hinge-exponential hard-cut cost, the per-window solver, window
+* ``tracel/ot2.py``: window construction, the distance cost with its hard cut, the per-window solver, window
   bookkeeping on disk, overlap reconciliation, the relative row-mass filter and count matrices.
 * ``tracel/cli.py``: the ``tracel`` command.
 

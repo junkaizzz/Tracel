@@ -43,7 +43,9 @@ class OT2Params:
     """OT2 settings. Defaults are the values used in the manuscript.
 
     The cost between a transcript and a candidate cell at distance ``d`` (um) is
-    ``(d / r0) ** p_in + alpha * (exp(max(d - r0, 0) / sigma) - 1) + big_penalty * (d > hard_cut_um)``.
+    ``(d / r0) ** p_in + big_penalty * (d > hard_cut_um)``, i.e. ``(d/15)^2 + 1e6 * (d > 12)`` with the defaults.
+    An optional term ``alpha * (exp(max(d - r0, 0) / sigma) - 1)`` is added for ``d > r0``; it is zero whenever
+    ``hard_cut_um <= r0``, as with the defaults.
 
     Parameters
     ----------
@@ -54,9 +56,9 @@ class OT2Params:
     max_iters, thresh
         Sinkhorn iteration limit and convergence threshold.
     r0, p_in
-        Distance scale (um) and exponent of the polynomial cost term.
+        Distance scale (um) and exponent of the cost.
     sigma, alpha
-        Length scale (um) and weight of the exponential term beyond ``r0``.
+        Length scale (um) and weight of the optional term beyond ``r0`` (zero when ``hard_cut_um <= r0``).
     hard_cut_um
         Candidate radius and hard-cut distance (um).
     big_penalty
